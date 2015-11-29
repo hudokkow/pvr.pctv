@@ -215,10 +215,10 @@ void Pctv::TransferChannels(ADDON_HANDLE handle)
 	tag.iChannelNumber = channel.iChannelNumber;
 	tag.iSubChannelNumber = channel.iSubChannelNumber;
 	tag.iEncryptionSystem = channel.iEncryptionSystem;	
-    strncpy(tag.strChannelName, channel.strChannelName.c_str(), sizeof(tag.strChannelName));
-    strncpy(tag.strInputFormat, m_strPreviewMode.c_str(), sizeof(tag.strInputFormat));
-    strncpy(tag.strStreamURL, channel.strStreamURL.c_str(), sizeof(tag.strStreamURL));
-    strncpy(tag.strIconPath, channel.strLogoPath.c_str(), sizeof(tag.strIconPath));
+    strncpy(tag.strChannelName, channel.strChannelName.c_str(), sizeof(tag.strChannelName) - 1);
+    strncpy(tag.strInputFormat, m_strPreviewMode.c_str(), sizeof(tag.strInputFormat) - 1);
+    strncpy(tag.strStreamURL, channel.strStreamURL.c_str(), sizeof(tag.strStreamURL) - 1);
+    strncpy(tag.strIconPath, channel.strLogoPath.c_str(), sizeof(tag.strIconPath) - 1);
     PVR->TransferChannelEntry(handle, &tag);
   }
 }
@@ -304,7 +304,7 @@ void Pctv::TransferGroups(ADDON_HANDLE handle)
     memset(&tag, 0, sizeof(PVR_CHANNEL_GROUP));
     tag.bIsRadio = false;
     tag.iPosition = 0; // groups default order, unused
-    strncpy(tag.strGroupName, group.strGroupName.c_str(), sizeof(tag.strGroupName));
+    strncpy(tag.strGroupName, group.strGroupName.c_str(), sizeof(tag.strGroupName) - 1);
     
     PVR->TransferChannelGroup(handle, &tag);
   }
@@ -324,7 +324,7 @@ PVR_ERROR Pctv::GetChannelGroupMembers(ADDON_HANDLE handle, const PVR_CHANNEL_GR
         memset(&tag, 0, sizeof(PVR_CHANNEL_GROUP_MEMBER));
 
         tag.iChannelUniqueId = g.members[i];
-        strncpy(tag.strGroupName, g.strGroupName.c_str(), sizeof(tag.strGroupName));
+        strncpy(tag.strGroupName, g.strGroupName.c_str(), sizeof(tag.strGroupName) - 1);
         
         PVR->TransferChannelGroupMember(handle, &tag);
       }      
@@ -410,15 +410,15 @@ void Pctv::TransferRecordings(ADDON_HANDLE handle)
     PctvRecording &recording = m_recordings.at(i);
     PVR_RECORDING tag;
     memset(&tag, 0, sizeof(PVR_RECORDING));
-    strncpy(tag.strRecordingId, recording.strRecordingId.c_str(), sizeof(tag.strRecordingId) -1);
-    strncpy(tag.strTitle, recording.strTitle.c_str(), sizeof(tag.strTitle) -1);
-    strncpy(tag.strStreamURL, recording.strStreamURL.c_str(), sizeof(tag.strStreamURL) -1);
-    strncpy(tag.strPlotOutline, recording.strPlotOutline.c_str(), sizeof(tag.strPlotOutline) -1);
-    strncpy(tag.strPlot, recording.strPlot.c_str(), sizeof(tag.strPlot) -1);
-    strncpy(tag.strChannelName, recording.strChannelName.c_str(), sizeof(tag.strChannelName) -1);
-    strncpy(tag.strIconPath, recording.strIconPath.c_str(), sizeof(tag.strIconPath) -1);
+    strncpy(tag.strRecordingId, recording.strRecordingId.c_str(), sizeof(tag.strRecordingId) - 1);
+    strncpy(tag.strTitle, recording.strTitle.c_str(), sizeof(tag.strTitle) - 1);
+    strncpy(tag.strStreamURL, recording.strStreamURL.c_str(), sizeof(tag.strStreamURL) - 1);
+    strncpy(tag.strPlotOutline, recording.strPlotOutline.c_str(), sizeof(tag.strPlotOutline) - 1);
+    strncpy(tag.strPlot, recording.strPlot.c_str(), sizeof(tag.strPlot) - 1);
+    strncpy(tag.strChannelName, recording.strChannelName.c_str(), sizeof(tag.strChannelName) - 1);
+    strncpy(tag.strIconPath, recording.strIconPath.c_str(), sizeof(tag.strIconPath) - 1);
 	recording.strDirectory = "";
-    strncpy(tag.strDirectory, recording.strDirectory.c_str(), sizeof(tag.strDirectory) -1);
+    strncpy(tag.strDirectory, recording.strDirectory.c_str(), sizeof(tag.strDirectory) - 1);
     tag.recordingTime = recording.startTime;
     tag.iDuration = recording.iDuration;
 
@@ -532,7 +532,7 @@ void Pctv::TransferTimer(ADDON_HANDLE handle)
 
     tag.iClientIndex = timer.iId;
     tag.iClientChannelUid = timer.iChannelId;
-    strncpy(tag.strTitle, timer.strTitle.c_str(), sizeof(tag.strTitle));
+    strncpy(tag.strTitle, timer.strTitle.c_str(), sizeof(tag.strTitle) - 1);
     tag.startTime = timer.startTime;
     tag.endTime = timer.endTime;
     tag.state = timer.state;
